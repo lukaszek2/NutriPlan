@@ -1184,7 +1184,12 @@ function renderWeek() {
         <div class="day-name-wrap">
           <span class="day-name">${day}</span>
           ${todayFlag ? '<span class="today-badge">Dziś</span>' : ''}
-          ${trainingFlag ? '<span style="font-size:0.75rem" title="Dzień treningowy">🏋️</span>' : ''}
+          <button class="training-toggle ${trainingFlag?'active':''}"
+            onclick="event.stopPropagation();toggleTrainingDay('${key}')"
+            title="${trainingFlag ? 'Wyłącz trening' : 'Dzień treningowy'}"
+            style="padding:2px 8px;font-size:0.65rem">
+            🏋️${trainingFlag ? ' ✓' : ''}
+          </button>
         </div>
         <div class="day-cal-badge">
           <span><strong style="color:${calColor}">${macros.cal}</strong> / ${dayTarget} kcal${trainingFlag ? ' <span class="training-bonus">+'+TRAINING_BONUS+'</span>' : ''}</span>
@@ -1203,10 +1208,6 @@ function renderWeek() {
           <button class="add-meal-btn" onclick="addSlot('${key}','obiad')">+ Obiad</button>
           <button class="add-meal-btn" onclick="addSlot('${key}','kolacja')">+ Kolacja</button>
           <button class="add-meal-btn" onclick="addSlot('${key}','przekąska')">+ Przekąska</button>
-          <button class="training-toggle ${trainingFlag?'active':''}" onclick="event.stopPropagation();toggleTrainingDay('${key}')">
-            <span class="toggle-icon">🏋️</span>
-            ${trainingFlag ? 'Trening ✓' : 'Dzień treningowy'}
-          </button>
         </div>
       </div>
     </div>`;
