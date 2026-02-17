@@ -1,0 +1,479 @@
+{
+  "recipes": [
+    {
+      "cal": 908,
+      "carbs": 127,
+      "fat": 30,
+      "id": "r-001",
+      "name": "Shake Gainer malinowo-borówkowo-bananowy",
+      "notes": "Składniki: Płatki owsiane górskie 80g, Skyr naturalny 150g, Mleko 3,2% 300ml, Banan 120g, Maliny mrożone 100g, Borówka amerykańska 50g, Orzechy włoskie 20g\n\nPrzygotowanie:\n1. Wsyp do blendera płatki owsiane.\n2. Dodaj orzechy, owoce i Skyr.\n3. Całość zalej mlekiem i zblenduj na gładki, kremowy shake.",
+      "portions": 1,
+      "protein": 43,
+      "type": "śniadanie"
+    },
+    {
+      "cal": 853,
+      "carbs": 96,
+      "fat": 29,
+      "id": "r-002",
+      "name": "Jajka na miękko z pieczywem, szynką i warzywami",
+      "notes": "Składniki: Jajka 4 szt. (220g), Chleb pszenny 180g, Szynka z indyka 20g, Rzodkiewka 50g, Papryka czerwona 50g, Masło 5g\n\nPrzygotowanie:\n1. Ugotuj jajka na miękko (4–5 min we wrzątku).\n2. Posmaruj chleb masłem, ułóż szynkę i pokrój warzywa.\n3. Obierz jajka i podawaj z kanapkami.",
+      "portions": 1,
+      "protein": 49,
+      "type": "śniadanie"
+    },
+    {
+      "cal": 453,
+      "carbs": 21,
+      "fat": 32,
+      "id": "r-003",
+      "name": "Klasyczna jajecznica z awokado",
+      "notes": "Składniki: Jajka 3 szt. (165g), Masło 5g, Awokado 70g, Chleb pełnoziarnisty żytni 25g, Pomidory koktajlowe 60g, Szczypior 5g\n\nPrzygotowanie:\n1. Usmaż jajecznicę na maśle (wilgotna).\n2. Opiecz chleb, nałóż na niego awokado.\n3. Podawaj jajecznicę z grzanką i pomidorami.",
+      "portions": 1,
+      "protein": 25,
+      "type": "śniadanie"
+    },
+    {
+      "cal": 600,
+      "carbs": 80,
+      "fat": 15,
+      "id": "r-004",
+      "name": "Czekoladowe placuszki z serka wiejskiego",
+      "notes": "Składniki: Serek wiejski 135g, Jajko 1 szt. (55g), Banan 70g, Mąka pszenna 60g, Odżywka białkowa 10g, Nasiona chia 5g, Kakao 3g, Erytrytol 8g, Maliny 60g (dodatek), Miód 5g (dodatek)\n\nPrzygotowanie:\n1. Zblenduj serek, jajko i banana. Dodaj suche składniki i wymieszaj.\n2. Smaż placki na rozgrzanej patelni (2–3 min/strona).\n3. Podawaj z malinami i miodem.",
+      "portions": 1,
+      "protein": 38,
+      "type": "śniadanie"
+    },
+    {
+      "cal": 490,
+      "carbs": 43,
+      "fat": 27,
+      "id": "r-005",
+      "name": "Tosty z guacamole i jajkiem sadzonym",
+      "notes": "Składniki: Chleb pszenny 60g, Jajka 2 szt. (110g), Awokado 70g, Oliwa 5g, Sok z limonki 10ml, Cebula czerwona 55g\n\nPrzygotowanie:\n1. Usmaż jajka sadzone. Podpiecz chleb.\n2. Zrób guacamole (awokado, cebula, limonka, oliwa).\n3. Posmaruj tosty pastą, nałóż jajka.",
+      "portions": 1,
+      "protein": 21,
+      "type": "śniadanie"
+    },
+    {
+      "cal": 637,
+      "carbs": 90,
+      "fat": 14,
+      "id": "r-006",
+      "name": "Bananowe Pancakes (Proteinowe)",
+      "notes": "Składniki: Banan 120g, Jajko 1 szt. (55g), Mąka pszenna 75g, Odżywka białkowa 25g, Mleko 1,5% 100ml, Erytrytol 10g, Olej do smażenia 5g\n\nPrzygotowanie:\n1. Rozgnieć banana, wymieszaj z resztą składników na ciasto.\n2. Smaż na patelni posmarowanej olejem na złoto.",
+      "portions": 1,
+      "protein": 39,
+      "type": "śniadanie"
+    },
+    {
+      "cal": 397,
+      "carbs": 27,
+      "fat": 26,
+      "id": "r-007",
+      "name": "Croissant z serem halloumi",
+      "notes": "Składniki: Croissant 50g, Ser halloumi 45g, Serek śmietankowy 15g, Ogórek zielony 25g, Cebula czerwona 10g, Rukola 10g\n\nPrzygotowanie:\n1. Przekrój croissanta (możesz podpiec). Usmaż halloumi.\n2. Złóż kanapkę: serek, rukola, ser, warzywa.",
+      "portions": 1,
+      "protein": 16,
+      "type": "śniadanie"
+    },
+    {
+      "cal": 361,
+      "carbs": 44,
+      "fat": 12,
+      "id": "r-008",
+      "name": "Placuszki na skyrze",
+      "notes": "Składniki: Skyr waniliowy 75g, Jajko 1 szt. (55g), Mąka pszenna/orkiszowa 35g, Olej do smażenia 5g, Borówka amerykańska 50g, Maliny 60g\n\nPrzygotowanie:\n1. Wymieszaj skyr, mąkę i jajko na gęste ciasto.\n2. Smaż małe placki na oleju. Podawaj z owocami.",
+      "portions": 1,
+      "protein": 20,
+      "type": "śniadanie"
+    },
+    {
+      "cal": 469,
+      "carbs": 84,
+      "fat": 11,
+      "id": "r-009",
+      "name": "Zapiekanka jaglana z owocami",
+      "notes": "Składniki: Kasza jaglana sucha 50g, Napój owsiany 75ml, Banan 60g, Maliny 60g, Truskawki 70g, Miód 20g, Masło 10g\n\nPrzygotowanie:\n1. Upraż kaszę, ugotuj na mleku z masłem i przyprawami.\n2. Wymieszaj z miodem, przełóż do formy, dodaj owoce.\n3. Piecz 20 min (180°C).",
+      "portions": 1,
+      "protein": 8,
+      "type": "śniadanie"
+    },
+    {
+      "cal": 629,
+      "carbs": 70,
+      "fat": 18,
+      "id": "r-010",
+      "name": "Owsianka jogurtowo-malinowa (Całonocna)",
+      "notes": "Składniki: Płatki owsiane górskie 70g, Nasiona chia 10g, Odżywka białkowa 30g, Mleko 1,5% 100ml, Jogurt grecki 135g, Maliny 50g\n\nPrzygotowanie:\n1. Wymieszaj płatki, chia, odżywkę i mleko w słoiku.\n2. Nałóż jogurt i owoce. Wstaw na noc do lodówki.",
+      "portions": 1,
+      "protein": 50,
+      "type": "śniadanie"
+    },
+    {
+      "cal": 509,
+      "carbs": 69,
+      "fat": 20,
+      "id": "r-011",
+      "name": "Czekoladowa owsianka budyniowa",
+      "notes": "Składniki: Płatki owsiane górskie 30g, Mleko 1,5% 250ml, Budyń waniliowy (proszek) 10g, Czekolada gorzka 70% 10g, Erytrytol 5g, Orzechy włoskie 15g, Maliny 60g, Banan 60g\n\nPrzygotowanie:\n1. Ugotuj owsiankę z mlekiem i budyniem.\n2. Dodaj erytrytol i posiekaną czekoladę.\n3. Podawaj z orzechami, malinami i bananem.",
+      "portions": 1,
+      "protein": 16,
+      "type": "śniadanie"
+    },
+    {
+      "cal": 354,
+      "carbs": 40,
+      "fat": 13,
+      "id": "r-012",
+      "name": "Szybki wrap z łososiem",
+      "notes": "Składniki: Tortilla pszenna 60g, Łosoś wędzony 65g, Serek śmietankowy 10g, Papryka czerwona 70g, Sałata rzymska 90g\n\nPrzygotowanie:\n1. Posmaruj tortillę serkiem.\n2. Ułóż sałatę, paprykę i łososia. Zwiń w rulon.",
+      "portions": 1,
+      "protein": 21,
+      "type": "kolacja"
+    },
+    {
+      "cal": 392,
+      "carbs": 36,
+      "fat": 24,
+      "id": "r-013",
+      "name": "Grecka miska z serem feta i makaronem",
+      "notes": "Składniki: Makaron kokardki 30g, Ser feta 38g, Oliwa 10g, Oliwki zielone 30g, Warzywa (ogórek, pomidor, mix) 285g, Sos (cytryna, ocet, zioła) 15g\n\nPrzygotowanie:\n1. Ugotuj makaron. Pokrój warzywa i ser.\n2. Zrób sos (oliwa, cytryna, zioła). Wymieszaj wszystko w misce.",
+      "portions": 1,
+      "protein": 13,
+      "type": "kolacja"
+    },
+    {
+      "cal": 399,
+      "carbs": 37,
+      "fat": 20,
+      "id": "r-014",
+      "name": "Wrapy z cheddarem, awokado i pomidorem",
+      "notes": "Składniki: Tortilla pełnoziarnista 62g, Szynka wiejska 40g, Awokado 35g, Ser cheddar 15g, Serek śmietankowy 15g, Pomidor 50g, Rukola 20g\n\nPrzygotowanie:\n1. Na tortillę daj serek, rukolę, szynkę, cheddar, awokado i pomidora.\n2. Zwiń ciasno w wrapa.",
+      "portions": 1,
+      "protein": 18,
+      "type": "kolacja"
+    },
+    {
+      "cal": 846,
+      "carbs": 109,
+      "fat": 28,
+      "id": "r-015",
+      "name": "Owsianka całonocna - Stracciatella z owocami",
+      "notes": "Składniki: Płatki owsiane górskie 100g, Twaróg chudy 125g, Czekolada gorzka 70% 30g, Napój sojowy 150ml, Masło orzechowe 10g, Maliny 100g, Borówka amerykańska 60g\n\nPrzygotowanie:\n1. Płatki zalej częścią mleka. Nałóż maliny.\n2. Twaróg wymieszaj z resztą mleka i czekoladą. Wyłóż na owoce.\n3. Dodaj masło orzechowe i borówki. Schłódź przez noc.",
+      "portions": 1,
+      "protein": 45,
+      "type": "śniadanie"
+    },
+    {
+      "cal": 693,
+      "carbs": 95,
+      "fat": 14,
+      "id": "r-016",
+      "name": "Makaron w pomidorowym sosie z tuńczykiem",
+      "notes": "Składniki: Makaron pełnoziarnisty 100g, Tuńczyk w sosie własnym 140g, Przecier pomidorowy 250g, Oliwa 10g, Cebula 50g\n\nPrzygotowanie:\n1. Ugotuj makaron. Podsmaż cebulę, wlej przecier, zagotuj.\n2. Dodaj makaron i tuńczyka, wymieszaj.",
+      "portions": 1,
+      "protein": 55,
+      "type": "obiad"
+    },
+    {
+      "cal": 652,
+      "carbs": 94,
+      "fat": 17,
+      "id": "r-017",
+      "name": "Sushi sandwich z kurczakiem",
+      "notes": "Składniki: Ryż do sushi suchy 100g, Filet z kurczaka 100g, Awokado 46g, Marchew 33g, Serek śmietankowy 20g, Nori 2 szt. (6g), Dodatki (ocet, olej, soja) 25g\n\nPrzygotowanie:\n1. Ugotuj ryż i dopraw zalewą octową. Usmaż kurczaka.\n2. Na nori ułóż kwadrat z ryżu, serek, warzywa, kurczaka i drugą warstwę ryżu.\n3. Złóż nori w kopertę, zawiń w folię, schłódź i przekrój.",
+      "portions": 1,
+      "protein": 34,
+      "type": "obiad"
+    },
+    {
+      "cal": 736,
+      "carbs": 86,
+      "fat": 30,
+      "id": "r-018",
+      "name": "Butter Chicken",
+      "notes": "Składniki: Ryż jaśminowy 80g, Filet z piersi kurczaka 100g, Przecier pomidorowy 165g, Jogurt naturalny 35g, Masło 15g, Orzechy nerkowca 10g, Olej do smażenia 10g, Warzywa (cebula, czosnek) 53g\n\nPrzygotowanie:\n1. Zamarynuj i usmaż kurczaka.\n2. Zrób sos: zeszklij cebulę i przyprawy, dodaj passatę i nerkowce. Duś 10 min.\n3. Zblenduj sos, dodaj masło i kurczaka. Podawaj z ryżem.",
+      "portions": 1,
+      "protein": 34,
+      "type": "obiad"
+    },
+    {
+      "cal": 666,
+      "carbs": 66,
+      "fat": 23,
+      "id": "r-019",
+      "name": "Krewetki z makaronem spaghetti",
+      "notes": "Składniki: Krewetki tygrysie 150g, Makaron spaghetti 60g, Wino białe wytrawne 100ml, Pomidory suszone 30g, Szpinak świeży 25g, Masło 10g, Oliwa 10g\n\nPrzygotowanie:\n1. Podsmaż krewetki z czosnkiem i chili.\n2. Dodaj szpinak, suszone pomidory i masło. Podlej winem.\n3. Wrzuć ugotowany makaron, wymieszaj z sosem.",
+      "portions": 1,
+      "protein": 41,
+      "type": "obiad"
+    },
+    {
+      "cal": 707,
+      "carbs": 91,
+      "fat": 23,
+      "id": "r-020",
+      "name": "Kurczak słodko-ostry (Stir Fry)",
+      "notes": "Składniki: Mięso z uda kurczaka 150g, Ryż jaśminowy 80g, Ananas w syropie 35g, Warzywa mix (papryka itp.) 115g, Orzechy nerkowca 5g, Olej do smażenia 10g, Sos (soja, miód, curry) 38g\n\nPrzygotowanie:\n1. Wymieszaj sos curry. Usmaż kurczaka.\n2. Podsmaż warzywa i ananasa. Dodaj kurczaka i sos.\n3. Podawaj z ryżem i nerkowcami.",
+      "portions": 1,
+      "protein": 37,
+      "type": "obiad"
+    },
+    {
+      "cal": 576,
+      "carbs": 44,
+      "fat": 26,
+      "id": "r-021",
+      "name": "Pikantna wołowina ze słodko-kwaśnym miodem",
+      "notes": "Składniki: Wołowina mielona chuda 150g, Bataty 150g, Awokado 70g, Serek wiejski 75g, Olej do smażenia 5g, Sos (miód, limonka, koncentrat) 20g\n\nPrzygotowanie:\n1. Bataty i wołowinę upiecz w Air Fryerze (lub piekarniku).\n2. Wymieszaj mięso z koncentratem. Zrób sos miodowy.\n3. Ułóż wszystko w misce, polej sosem.",
+      "portions": 1,
+      "protein": 42,
+      "type": "obiad"
+    },
+    {
+      "cal": 682,
+      "carbs": 83,
+      "fat": 14,
+      "id": "r-022",
+      "name": "Super Light kurczak z Air Fry",
+      "notes": "Składniki: Filet z piersi kurczaka 200g, Ryż basmati 100g, Warzywa mrożone 150g, Oliwa 10g\n\nPrzygotowanie:\n1. Ugotuj ryż. Warzywa zrób na parze.\n2. Kurczaka przypraw, skrop oliwą i upiecz w Air Fryerze/piekarniku.",
+      "portions": 1,
+      "protein": 53,
+      "type": "obiad"
+    },
+    {
+      "cal": 667,
+      "carbs": 83,
+      "fat": 19,
+      "id": "r-023",
+      "name": "Wołowina w koreańskim stylu",
+      "notes": "Składniki: Wołowina mielona 150g, Ryż jaśminowy 100g, Ogórek zielony 79g, Sos (soja, olej sezamowy, sriracha) 43g\n\nPrzygotowanie:\n1. Usmaż wołowinę. Wlej wymieszany sos.\n2. Podawaj na ryżu z plastrami ogórka.",
+      "portions": 1,
+      "protein": 39,
+      "type": "obiad"
+    },
+    {
+      "cal": 728,
+      "carbs": 100,
+      "fat": 19,
+      "id": "r-024",
+      "name": "Chiński kurczak Coca Cola",
+      "notes": "Składniki: Mięso z uda kurczaka 150g, Ryż jaśminowy 80g, Brokuł 250g, Coca-Cola 165ml, Sos (wino, soja, olej) 63g\n\nPrzygotowanie:\n1. Usmaż kurczaka. Podsmaż imbir i czosnek.\n2. Wlej colę, wino i soję. Zredukuj do syropu.\n3. Wymieszaj kurczaka z sosem. Podawaj z ryżem i brokułem.",
+      "portions": 1,
+      "protein": 42,
+      "type": "obiad"
+    },
+    {
+      "cal": 676,
+      "carbs": 79,
+      "fat": 23,
+      "id": "r-025",
+      "name": "Bowl teriyaki",
+      "notes": "Składniki: Filet z piersi kurczaka 150g, Ryż jaśminowy 70g, Fasola szparagowa 100g, Ananas 40g, Awokado 35g, Sosy i oleje 35g\n\nPrzygotowanie:\n1. Usmaż kurczaka, wlej sos teriyaki (soja + cukier).\n2. Fasolkę wymieszaj z olejem sezamowym.\n3. Ułóż w misce: ryż, kurczaka, fasolkę, awokado, ananasa.",
+      "portions": 1,
+      "protein": 41,
+      "type": "obiad"
+    },
+    {
+      "cal": 638,
+      "carbs": 76,
+      "fat": 19,
+      "id": "r-026",
+      "name": "Penne w sosie pomidorowym ze szpinakiem",
+      "notes": "Składniki: Filet z piersi kurczaka 150g, Makaron penne 70g, Passata pomidorowa 235g, Szpinak świeży 50g, Oliwa 15g, Cebula 50g\n\nPrzygotowanie:\n1. Usmaż kurczaka. Zeszklij cebulę, dodaj passatę.\n2. Wrzuć surowy makaron do sosu, gotuj dolewając wody.\n3. Dodaj szpinak i kurczaka.",
+      "portions": 1,
+      "protein": 47,
+      "type": "obiad"
+    },
+    {
+      "cal": 595,
+      "carbs": 79,
+      "fat": 16,
+      "id": "r-027",
+      "name": "Kurczak w 5 smakach",
+      "notes": "Składniki: Mięso z uda kurczaka 150g, Ryż jaśminowy 70g, Warzywa (papryka, fasola) 106g, Marchew 40g, Olej do smażenia 6g, Sos (miód, soja, skrobia) 34g\n\nPrzygotowanie:\n1. Upiecz kurczaka i warzywa w piekarniku (200°C).\n2. Zagotuj sos na patelni. Dodaj upieczone składniki.\n3. Dodaj surową marchewkę. Podawaj z ryżem.",
+      "portions": 1,
+      "protein": 35,
+      "type": "obiad"
+    },
+    {
+      "cal": 627,
+      "carbs": 66,
+      "fat": 19,
+      "id": "r-028",
+      "name": "Kurczak w sosie serowym",
+      "notes": "Składniki: Filet z piersi kurczaka 150g, Ryż parboiled 60g, Warzywa mrożone 135g, Mleko skondensowane light 50g, Ser cheddar 17g, Masło i Oliwa 10g, Mąka pszenna 4g\n\nPrzygotowanie:\n1. Ugotuj ryż i warzywa na parze.\n2. Usmaż kurczaka na patelni.\n3. Zrób sos serowy: roztop masło, dodaj mąkę, mleko skondensowane i ser cheddar, mieszaj do zgęstnienia.\n4. Polej kurczaka sosem, podawaj z ryżem i warzywami.",
+      "portions": 1,
+      "protein": 48,
+      "type": "obiad"
+    }
+  ],
+  "weekPlans": {
+    "0": {
+      "czw": [
+        {
+          "type": "śniadanie",
+          "recipeId": "r-001",
+          "portionScale": 1
+        },
+        {
+          "type": "lunch",
+          "recipeId": "r-012",
+          "portionScale": 1
+        },
+        {
+          "type": "obiad",
+          "recipeId": "r-022",
+          "portionScale": 1.3
+        },
+        {
+          "type": "kolacja",
+          "recipeId": "r-013",
+          "portionScale": 1
+        }
+      ],
+      "ndz": [
+        {
+          "type": "śniadanie",
+          "recipeId": "r-002",
+          "portionScale": 1
+        },
+        {
+          "type": "lunch",
+          "recipeId": "r-012",
+          "portionScale": 1
+        },
+        {
+          "type": "obiad",
+          "recipeId": "r-027",
+          "portionScale": 1.6
+        },
+        {
+          "type": "kolacja",
+          "recipeId": "r-012",
+          "portionScale": 1
+        }
+      ],
+      "pon": [
+        {
+          "type": "śniadanie",
+          "recipeId": "r-006",
+          "portionScale": 1
+        },
+        {
+          "type": "lunch",
+          "recipeId": "r-014",
+          "portionScale": 1
+        },
+        {
+          "type": "obiad",
+          "recipeId": "r-028",
+          "portionScale": 1.9
+        },
+        {
+          "type": "kolacja",
+          "recipeId": "r-014",
+          "portionScale": 1
+        }
+      ],
+      "pt": [
+        {
+          "type": "śniadanie",
+          "recipeId": "r-008",
+          "portionScale": 1
+        },
+        {
+          "type": "lunch",
+          "recipeId": "r-013",
+          "portionScale": 1
+        },
+        {
+          "type": "obiad",
+          "recipeId": "r-025",
+          "portionScale": 2
+        },
+        {
+          "type": "kolacja",
+          "recipeId": "r-014",
+          "portionScale": 1
+        }
+      ],
+      "sob": [
+        {
+          "type": "śniadanie",
+          "recipeId": "r-004",
+          "portionScale": 1
+        },
+        {
+          "type": "lunch",
+          "recipeId": "r-014",
+          "portionScale": 1
+        },
+        {
+          "type": "obiad",
+          "recipeId": "r-025",
+          "portionScale": 1.7
+        },
+        {
+          "type": "kolacja",
+          "recipeId": "r-012",
+          "portionScale": 1
+        }
+      ],
+      "sr": [
+        {
+          "type": "śniadanie",
+          "recipeId": "r-015",
+          "portionScale": 1
+        },
+        {
+          "type": "lunch",
+          "recipeId": "r-012",
+          "portionScale": 1
+        },
+        {
+          "type": "obiad",
+          "recipeId": "r-022",
+          "portionScale": 1.5
+        },
+        {
+          "type": "kolacja",
+          "recipeId": "r-012",
+          "portionScale": 1
+        }
+      ],
+      "wt": [
+        {
+          "type": "śniadanie",
+          "recipeId": "r-003",
+          "portionScale": 1
+        },
+        {
+          "type": "lunch",
+          "recipeId": "r-013",
+          "portionScale": 1
+        },
+        {
+          "type": "obiad",
+          "recipeId": "r-028",
+          "portionScale": 2
+        },
+        {
+          "type": "kolacja",
+          "recipeId": "r-013",
+          "portionScale": 1
+        }
+      ]
+    }
+  },
+  "trainingDays": {
+    "0": [
+      "pon",
+      "sr",
+      "pt"
+    ],
+    "1": []
+  },
+  "savedPlans": {}
+}

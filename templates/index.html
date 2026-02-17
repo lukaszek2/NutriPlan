@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NutriPlan – Twój Plan Żywieniowy</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --surface2: #242424;
+    --surface3: #2e2e2e;
+    --border: #333;
+    --accent: #c8f566;
+    --accent2: #66f5c8;
+    --accent3: #f5a566;
+    --text: #f0f0f0;
+    --text-muted: #888;
+    --red: #ff6b6b;
+    --protein-color: #66f5c8;
+    --carb-color: #f5c866;
+    --fat-color: #f566a4;
+    --cal-color: #c8f566;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(15,15,15,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--accent); }
+  .header-stats {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+  .stat-pill {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .stat-pill .val {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .stat-pill .lbl {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .header-btns { display: flex; gap: 10px; }
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0f0f0f;
+  }
+  .btn-primary:hover { background: #d4f77a; transform: translateY(-1px); }
+  .btn-ghost {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { background: var(--surface3); }
+  .btn-danger { background: #3a1a1a; color: var(--red); border: 1px solid #5a2a2a; }
+  .btn-danger:hover { background: #4a2020; }
+
+  /* MAIN LAYOUT */
+  main {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    min-height: calc(100vh - 65px);
+  }
+
+  /* SIDEBAR */
+  aside {
+    border-right: 1px solid var(--border);
+    padding: 24px 20px;
+    overflow-y: auto;
+    max-height: calc(100vh - 65px);
+    position: sticky;
+    top: 65px;
+  }
+  .sidebar-section { margin-bottom: 28px; }
+  .sidebar-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  /* RECIPE CARDS */
+  .recipe-list { display: flex; flex-direction: column; gap: 8px; }
+  .recipe-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    cursor: grab;
+    transition: all 0.18s;
+    position: relative;
+    overflow: hidden;
+  }
+  .recipe-card:hover {
+    border-color: var(--accent);
+    transform: translateX(3px);
+  }
+  .recipe-card.dragging { opacity: 0.5; cursor: grabbing; }
+  .recipe-tag {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 2px 7px;
+    border-radius: 100px;
+    margin-bottom: 5px;
+  }
+  .tag-sniadanie { background: rgba(245,165,102,0.2); color: var(--accent3); }
+  .tag-obiad { background: rgba(200,245,102,0.2); color: var(--accent); }
+  .tag-kolacja { background: rgba(102,245,200,0.2); color: var(--accent2); }
+  .tag-lunch { background: rgba(102,200,245,0.2); color: #66c8f5; }
+  .tag-przekaska { background: rgba(245,86,164,0.2); color: var(--fat-color); }
+  .recipe-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+  .recipe-macros {
+    display: flex;
+    gap: 8px;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+  .recipe-macros span { display: flex; align-items: center; gap: 3px; }
+  .macro-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .recipe-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .btn-xs {
+    font-size: 0.68rem;
+    padding: 3px 9px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  /* SEARCH / FILTER */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .search-bar input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+  }
+  .search-bar input::placeholder { color: var(--text-muted); }
+  .filter-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .chip {
+    font-size: 0.68rem;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .chip.active { border-color: var(--accent); color: var(--accent); background: rgba(200,245,102,0.08); }
+
+  /* MAIN CONTENT */
+  .content { padding: 24px 28px; overflow-y: auto; }
+
+  /* WEEK SELECTOR */
+  .week-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .week-nav h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  .week-nav .nav-btn {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    transition: all 0.15s;
+  }
+  .week-nav .nav-btn:hover { background: var(--surface3); }
+
+  /* DAILY MACRO BAR */
+  .day-macro-summary {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .macro-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+  }
+  .macro-pill .m-label { color: var(--text-muted); }
+  .macro-pill .m-val { font-weight: 600; }
+
+  /* DAYS GRID */
+  .days-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .day-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .day-card.today { border-color: var(--accent); }
+  .day-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+  .day-header:hover { background: var(--surface2); }
+  .day-name-wrap { display: flex; align-items: center; gap: 10px; }
+  .day-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .today-badge {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: var(--accent);
+    color: #0f0f0f;
+    padding: 2px 8px;
+    border-radius: 100px;
+  }
+  .day-cal-badge {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .day-cal-badge strong { color: var(--cal-color); font-family: 'Syne', sans-serif; }
+  .cal-bar-wrap {
+    width: 80px; height: 4px;
+    background: var(--surface3);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .cal-bar { height: 100%; border-radius: 2px; transition: width 0.4s; }
+  .day-collapse-icon { color: var(--text-muted); font-size: 0.8rem; transition: transform 0.2s; }
+  .day-card.collapsed .day-collapse-icon { transform: rotate(-90deg); }
+
+  .day-meals {
+    padding: 12px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .day-card.collapsed .day-meals { display: none; }
+
+  /* MEAL SLOT */
+  .meal-slot {
+    background: var(--surface2);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 54px;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .meal-slot.has-meal { border-style: solid; }
+  .meal-slot.drop-target { border-color: var(--accent); background: rgba(200,245,102,0.05); }
+  .meal-slot-type {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    min-width: 70px;
+  }
+  .meal-slot-content { flex: 1; }
+  .meal-slot-name {
+    font-weight: 500;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    margin-bottom: 3px;
+  }
+  .meal-slot-macros {
+    display: flex;
+    gap: 10px;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+  }
+  .meal-slot-empty {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+  .meal-slot-actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .meal-slot:hover .meal-slot-actions { opacity: 1; }
+  .slot-btn {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface3);
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    transition: all 0.15s;
+  }
+  .slot-btn:hover { color: var(--text); background: var(--surface3); }
+  .slot-btn.remove:hover { color: var(--red); border-color: var(--red); }
+
+  .add-meal-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .add-meal-btn {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: none;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .add-meal-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* GENERATE BUTTON */
+  .generate-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .generate-info {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    width: 90%;
+    max-width: 520px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideUp 0.2s ease;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .modal-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+  }
+  .modal-close:hover { color: var(--text); }
+
+  /* FORM */
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    padding: 9px 12px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
+  .form-textarea { resize: vertical; min-height: 80px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-row-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
+  .form-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 18px;
+    font-size: 0.82rem;
+    z-index: 999;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    animation: fadeInUp 0.2s ease;
+    max-width: 300px;
+  }
+  .toast.show { display: flex; }
+  .toast.success { border-left: 3px solid var(--accent); }
+  .toast.error { border-left: 3px solid var(--red); }
+  @keyframes fadeInUp {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* MACRO PROGRESS BARS */
+  .macro-bars { display: flex; flex-direction: column; gap: 6px; margin-top: 16px; }
+  .macro-bar-row { display: flex; align-items: center; gap: 10px; font-size: 0.75rem; }
+  .macro-bar-label { width: 70px; color: var(--text-muted); }
+  .macro-bar-track {
+    flex: 1; height: 6px;
+    background: var(--surface3);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .macro-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+  .macro-bar-val { width: 55px; text-align: right; font-weight: 600; font-size: 0.72rem; }
+
+  /* CHOOSE MEAL MODAL */
+  .recipe-choose-list { display: flex; flex-direction: column; gap: 8px; max-height: 360px; overflow-y: auto; }
+  .recipe-choose-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .recipe-choose-item:hover { border-color: var(--accent); background: rgba(200,245,102,0.05); }
+  .recipe-choose-search {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  .recipe-choose-search input {
+    flex: 1; background: none; border: none; outline: none;
+    color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+  }
+  .recipe-choose-search input::placeholder { color: var(--text-muted); }
+
+  /* TRAINING DAY TOGGLE */
+  .training-toggle {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    user-select: none;
+    padding: 3px 10px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    transition: all 0.18s;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .training-toggle:hover { border-color: #f5a566; color: var(--accent3); }
+  .training-toggle.active {
+    background: rgba(245,165,102,0.12);
+    border-color: var(--accent3);
+    color: var(--accent3);
+  }
+  .training-toggle .toggle-icon { font-size: 0.85rem; }
+  .training-bonus {
+    font-size: 0.62rem;
+    background: rgba(245,165,102,0.15);
+    color: var(--accent3);
+    padding: 1px 6px;
+    border-radius: 100px;
+    font-weight: 600;
+    margin-left: 2px;
+  }
+  .day-card.training-day { border-color: rgba(245,165,102,0.35); }
+  .day-card.training-day .day-header { background: rgba(245,165,102,0.04); }
+
+  /* TRAINING SUMMARY IN SIDEBAR */
+  .training-week-summary {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+  .training-week-summary .tw-title {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .training-day-dots { display: flex; gap: 5px; flex-wrap: wrap; }
+  .training-dot {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.62rem;
+    font-weight: 700;
+    background: var(--surface3);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+  .training-dot.active {
+    background: rgba(245,165,102,0.2);
+    color: var(--accent3);
+    border-color: var(--accent3);
+  }
+
+  /* INSTRUKCJE PRZYGOTOWANIA */
+  .meal-notes-toggle {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 0;
+    margin-top: 3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'DM Sans', sans-serif;
+    transition: color 0.15s;
+  }
+  .meal-notes-toggle:hover { color: var(--accent2); }
+  .meal-notes-body {
+    display: none;
+    margin-top: 8px;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    white-space: pre-wrap;
+    background: var(--surface3);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    border-left: 2px solid var(--accent2);
+  }
+  .meal-notes-body.open { display: block; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    main { grid-template-columns: 1fr; }
+    aside { display: none; }
+    header { padding: 12px 14px; gap: 8px; flex-wrap: wrap; }
+    .logo { font-size: 1.1rem; }
+    .header-stats { display: none; }
+    .header-btns { gap: 6px; }
+    .header-btns .btn { font-size: 0.72rem; padding: 6px 10px; }
+    .content { padding: 12px; }
+    .week-nav { gap: 10px; margin-bottom: 16px; }
+    .week-nav h2 { font-size: 0.95rem; }
+    .generate-row { gap: 7px; }
+    .generate-row .btn { font-size: 0.72rem; padding: 6px 10px; }
+    .generate-info { display: none; }
+    .form-row-4 { grid-template-columns: 1fr 1fr; }
+    .day-header { padding: 10px 12px; }
+    .day-name { font-size: 0.85rem; }
+    .day-cal-badge { font-size: 0.68rem; gap: 4px; flex-wrap: wrap; }
+    .cal-bar-wrap { width: 50px; }
+    .day-meals { padding: 8px 12px 12px; }
+    .meal-slot { padding: 8px 10px; gap: 8px; }
+    .meal-slot-actions { opacity: 1; }
+    .slot-btn { width: 28px; height: 28px; font-size: 0.75rem; }
+    .add-meal-row { flex-wrap: wrap; gap: 5px; }
+    .add-meal-btn { font-size: 0.68rem; padding: 5px 9px; }
+    .training-toggle { font-size: 0.65rem; padding: 3px 8px; }
+    .modal { padding: 20px 16px; width: 95%; }
+    .form-row { grid-template-columns: 1fr; }
+    #saved-plans-section { margin-bottom: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Nutri<span>Plan</span></div>
+  <div class="header-stats" id="header-stats">
+    <div class="stat-pill">
+      <span class="val" id="hs-cal" style="color:var(--cal-color)">—</span>
+      <span class="lbl">Cel kcal</span>
+    </div>
+    <div class="stat-pill">
+      <span class="val" id="hs-protein" style="color:var(--protein-color)">—</span>
+      <span class="lbl">Białko g</span>
+    </div>
+    <div class="stat-pill">
+      <span class="val" id="hs-recipes" style="color:var(--accent3)">—</span>
+      <span class="lbl">Przepisów</span>
+    </div>
+  </div>
+  <div class="header-btns">
+    <span id="sync-indicator" style="font-size:0.72rem;transition:color 0.3s;min-width:110px;text-align:right"></span>
+    <button class="btn btn-ghost" onclick="openRecipeModal()">+ Przepis</button>
+    <button class="btn btn-primary" onclick="generateWeek()">✦ Generuj tydzień</button>
+  </div>
+</header>
+
+<main>
+  <aside>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Filtruj przepisy</div>
+      <div class="search-bar">
+        <span style="color:var(--text-muted)">🔍</span>
+        <input type="text" id="recipe-search" placeholder="Szukaj przepisu..." oninput="renderSidebar()">
+      </div>
+      <div class="filter-chips" id="filter-chips">
+        <div class="chip active" data-filter="all" onclick="setFilter('all',this)">Wszystkie</div>
+        <div class="chip" data-filter="śniadanie" onclick="setFilter('śniadanie',this)">Śniadanie</div>
+        <div class="chip" data-filter="obiad" onclick="setFilter('obiad',this)">Obiad</div>
+        <div class="chip" data-filter="kolacja" onclick="setFilter('kolacja',this)">Kolacja</div>
+        <div class="chip" data-filter="przekąska" onclick="setFilter('przekąska',this)">Przekąska</div>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Dni treningowe</div>
+      <div class="training-week-summary">
+        <div class="tw-title">Zaznacz dni z treningiem</div>
+        <div class="training-day-dots" id="training-dots"></div>
+        <div style="margin-top:10px;font-size:0.72rem;color:var(--text-muted);line-height:1.6">
+          Dzień treningowy:<br>
+          <strong style="color:var(--accent3)" id="sidebar-training-cal">—</strong> kcal
+          <span style="color:var(--text-muted)"> (bazowe + <span id="sidebar-training-bonus">—</span>)</span>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Baza przepisów</div>
+      <div class="recipe-list" id="recipe-list"></div>
+    </div>
+  </aside>
+
+  <div class="content">
+    <div class="week-nav">
+      <button class="nav-btn" onclick="changeWeek(-1)">‹</button>
+      <h2 id="week-label">Tydzień 1</h2>
+      <button class="nav-btn" onclick="changeWeek(1)">›</button>
+    </div>
+
+    <div class="generate-row">
+      <button class="btn btn-primary" onclick="generateWeek()" style="font-size:0.85rem">
+        ✦ Auto-generuj plan
+      </button>
+      <button class="btn btn-ghost" style="font-size:0.85rem" onclick="openSavePlanModal()">💾 Zapisz plan</button>
+      <button class="btn btn-ghost" style="font-size:0.85rem" onclick="clearWeek()">Wyczyść</button>
+      <span class="generate-info">Obiady powtarzają się 2 dni · automatyczne makro</span>
+    </div>
+    <div id="saved-plans-section" style="margin-bottom:16px">
+      <div style="font-size:0.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px">Zapisane plany</div>
+      <div id="saved-plans-list"></div>
+    </div>
+
+    <div class="days-grid" id="days-grid"></div>
+  </div>
+</main>
+
+<!-- MODAL: Add/Edit Recipe -->
+<div class="modal-overlay" id="recipe-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeRecipeModal()">✕</button>
+    <div class="modal-title" id="recipe-modal-title">Dodaj przepis</div>
+    <div class="form-group">
+      <label class="form-label">Nazwa dania</label>
+      <input type="text" class="form-input" id="r-name" placeholder="np. Kurczak z ryżem">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Typ posiłku</label>
+        <select class="form-select" id="r-type">
+          <option value="śniadanie">Śniadanie</option>
+          <option value="obiad" selected>Obiad</option>
+          <option value="kolacja">Kolacja</option>
+          <option value="przekąska">Przekąska</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Kcal</label>
+        <input type="number" class="form-input" id="r-cal" placeholder="500">
+      </div>
+    </div>
+    <div class="form-row-4">
+      <div class="form-group">
+        <label class="form-label">Białko (g)</label>
+        <input type="number" class="form-input" id="r-protein" placeholder="40">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Węgl. (g)</label>
+        <input type="number" class="form-input" id="r-carbs" placeholder="60">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tłuszcz (g)</label>
+        <input type="number" class="form-input" id="r-fat" placeholder="15">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Porcje</label>
+        <input type="number" class="form-input" id="r-portions" placeholder="1" value="1" min="1">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Krótki opis / składniki (opcjonalnie)</label>
+      <textarea class="form-textarea" id="r-notes" placeholder="np. Pierś z kurczaka, ryż basmati, brokuł, oliwa..."></textarea>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-ghost" onclick="closeRecipeModal()">Anuluj</button>
+      <button class="btn btn-primary" onclick="saveRecipe()">Zapisz przepis</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Choose Meal -->
+<div class="modal-overlay" id="choose-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeChooseModal()">✕</button>
+    <div class="modal-title">Wybierz posiłek</div>
+    <div class="recipe-choose-search">
+      <span style="color:var(--text-muted)">🔍</span>
+      <input type="text" id="choose-search" placeholder="Szukaj..." oninput="renderChooseList()">
+    </div>
+    <div id="choose-list" class="recipe-choose-list"></div>
+  </div>
+</div>
+
+<!-- MODAL: Save Plan -->
+<div class="modal-overlay" id="save-plan-modal">
+  <div class="modal" style="max-width:380px">
+    <button class="modal-close" onclick="closeSavePlanModal()">✕</button>
+    <div class="modal-title">Zapisz plan tygodnia</div>
+    <div class="form-group">
+      <label class="form-label">Nazwa planu</label>
+      <input type="text" class="form-input" id="save-plan-name" placeholder="np. Tydzień masowy, Cutting marzec...">
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-ghost" onclick="closeSavePlanModal()">Anuluj</button>
+      <button class="btn btn-primary" onclick="saveCurrentPlan()">💾 Zapisz</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span id="toast-msg"></span></div>
+
+<script>
+// ===================== STATE =====================
+let recipes = [];
+let weekPlans = {}; // weekOffset -> { mon: [{type, recipeId}], ... }
+let trainingDays = {}; // weekOffset -> Set of day keys
+let savedPlans = {}; // name -> weekPlan snapshot
+let currentWeek = 0;
+let editingRecipeId = null;
+let choosingSlot = null; // {weekOffset, day, slotIdx}
+let currentFilter = 'all';
+
+const DAYS = ['Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota','Niedziela'];
+const DAYS_SHORT = ['pon','wt','sr','czw','pt','sob','ndz'];
+const MEAL_TYPES = ['śniadanie','obiad','kolacja','przekąska'];
+
+// ===================== DEFAULTS =====================
+const TARGET_CAL     = 2450;
+const TARGET_PROTEIN = 150;  // g
+const TARGET_CARBS   = 300;  // g (cel środkowy z zakresu 250-350)
+const TARGET_FAT     = 70;   // g
+const TRAINING_BONUS = 300;  // extra kcal on training days
+
+// Tolerancje — akceptowalny zakres
+const TOL_PROTEIN_MIN = 130;
+const TOL_PROTEIN_MAX = 170;
+const TOL_CARBS_MIN   = 250;
+const TOL_CARBS_MAX   = 350;
+const TOL_FAT_MIN     = 55;
+const TOL_FAT_MAX     = 85;
+
+// ===================== STORAGE (Flask API) =====================
+let saveTimer = null;
+
+function save() {
+  // Debounce – czekaj 600ms po ostatniej zmianie żeby nie zalewać serwera
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => _saveToServer(), 600);
+}
+
+async function _saveToServer() {
+  const tdSave = {};
+  Object.keys(trainingDays).forEach(k => { tdSave[k] = [...trainingDays[k]]; });
+  try {
+    const res = await fetch('/api/data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recipes, weekPlans, trainingDays: tdSave, savedPlans })
+    });
+    if (!res.ok) throw new Error('Błąd zapisu');
+    showSyncIndicator('saved');
+  } catch(e) {
+    showSyncIndicator('error');
+  }
+}
+
+async function load() {
+  try {
+    showSyncIndicator('loading');
+    const res = await fetch('/api/data');
+    if (!res.ok) throw new Error('Błąd odczytu');
+    const data = await res.json();
+    recipes     = data.recipes     || [];
+    weekPlans   = data.weekPlans   || {};
+    savedPlans  = data.savedPlans  || {};
+    const td    = data.trainingDays || {};
+    trainingDays = {};
+    Object.keys(td).forEach(k => { trainingDays[k] = new Set(td[k]); });
+    showSyncIndicator('loaded');
+  } catch(e) {
+    showSyncIndicator('error');
+  }
+}
+
+// ── Wskaźnik synchronizacji ────────────────────────────
+function showSyncIndicator(state) {
+  const el = document.getElementById('sync-indicator');
+  if (!el) return;
+  const states = {
+    loading: { text: '⟳ Ładowanie...', color: 'var(--text-muted)' },
+    loaded:  { text: '✓ Zsynchronizowano', color: 'var(--accent2)' },
+    saved:   { text: '✓ Zapisano', color: 'var(--accent)' },
+    error:   { text: '✕ Błąd sync', color: 'var(--red)' },
+  };
+  const s = states[state] || states.loaded;
+  el.textContent = s.text;
+  el.style.color = s.color;
+  if (state === 'saved' || state === 'loaded') {
+    setTimeout(() => { el.textContent = ''; }, 2500);
+  }
+}
+
+// ===================== SEED DATA =====================
+function seedRecipes() {
+  // Przepisy ładowane są z serwera (data.json) – seed wyłączony
+}
+
+// ===================== RENDER SIDEBAR =====================
+function renderSidebar() {
+  const list = document.getElementById('recipe-list');
+  const search = document.getElementById('recipe-search').value.toLowerCase();
+  let filtered = recipes.filter(r => {
+    const matchFilter = currentFilter === 'all' || r.type === currentFilter;
+    const matchSearch = r.name.toLowerCase().includes(search);
+    return matchFilter && matchSearch;
+  });
+
+  list.innerHTML = filtered.map(r => `
+    <div class="recipe-card" draggable="true" data-id="${r.id}"
+      ondragstart="onDragStart(event,'${r.id}')" >
+      <div class="recipe-tag tag-${r.type.replace('ą','a').replace('ś','s')}">${r.type}</div>
+      <div class="recipe-name">${r.name}</div>
+      <div class="recipe-macros">
+        <span><span class="macro-dot" style="background:var(--cal-color)"></span>${r.cal} kcal</span>
+        <span><span class="macro-dot" style="background:var(--protein-color)"></span>B: ${r.protein}g</span>
+        <span><span class="macro-dot" style="background:var(--carb-color)"></span>W: ${r.carbs}g</span>
+        <span><span class="macro-dot" style="background:var(--fat-color)"></span>T: ${r.fat}g</span>
+      </div>
+      <div class="recipe-actions">
+        <button class="btn-xs btn-ghost" style="background:var(--surface2);border:1px solid var(--border);color:var(--text-muted)" onclick="editRecipe('${r.id}')">✎ Edytuj</button>
+        <button class="btn-xs btn-danger" style="background:#3a1a1a;border:1px solid #5a2a2a;color:var(--red)" onclick="deleteRecipe('${r.id}')">✕</button>
+      </div>
+    </div>
+  `).join('') || '<div style="color:var(--text-muted);font-size:0.8rem;padding:8px">Brak przepisów</div>';
+
+  // Update header
+  document.getElementById('hs-recipes').textContent = recipes.length;
+  document.getElementById('hs-cal').textContent = TARGET_CAL;
+  document.getElementById('hs-protein').textContent = TARGET_PROTEIN + 'g';
+  renderTrainingDots();
+}
+
+function setFilter(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderSidebar();
+}
+
+// ===================== TRAINING DAYS =====================
+function getTrainingSet() {
+  if (!trainingDays[currentWeek]) trainingDays[currentWeek] = new Set();
+  return trainingDays[currentWeek];
+}
+
+function isTrainingDay(dayKey) {
+  return getTrainingSet().has(dayKey);
+}
+
+function toggleTrainingDay(dayKey) {
+  const set = getTrainingSet();
+  if (set.has(dayKey)) set.delete(dayKey); else set.add(dayKey);
+  save(); renderSidebar(); renderWeek();
+}
+
+function getDayTarget(dayKey) {
+  return isTrainingDay(dayKey) ? TARGET_CAL + TRAINING_BONUS : TARGET_CAL;
+}
+
+function renderTrainingDots() {
+  const dots = document.getElementById('training-dots');
+  if (!dots) return;
+  const set = getTrainingSet();
+  const DAY_LABELS = ['Pn','Wt','Śr','Cz','Pt','Sb','Nd'];
+  dots.innerHTML = DAYS_SHORT.map((key, i) => `
+    <div class="training-dot ${set.has(key) ? 'active' : ''}"
+      onclick="toggleTrainingDay('${key}')" title="${DAYS[i]}">
+      ${DAY_LABELS[i]}
+    </div>
+  `).join('');
+
+  const trainingCal = TARGET_CAL + TRAINING_BONUS;
+  document.getElementById('sidebar-training-cal').textContent = trainingCal;
+  document.getElementById('sidebar-training-bonus').textContent = '+' + TRAINING_BONUS;
+}
+
+// ===================== WEEK RENDERING =====================
+function getWeekPlan() {
+  if (!weekPlans[currentWeek]) weekPlans[currentWeek] = {};
+  return weekPlans[currentWeek];
+}
+
+function getWeekLabel() {
+  const now = new Date();
+  const monday = new Date(now);
+  const day = now.getDay();
+  const diff = (day === 0 ? -6 : 1 - day) + currentWeek * 7;
+  monday.setDate(now.getDate() + diff);
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  const fmt = d => `${d.getDate()}.${String(d.getMonth()+1).padStart(2,'0')}`;
+  return `${fmt(monday)} – ${fmt(sunday)} ${sunday.getFullYear()}`;
+}
+
+function isToday(dayIdx) {
+  if (currentWeek !== 0) return false;
+  const day = new Date().getDay();
+  return (day === 0 ? 6 : day - 1) === dayIdx;
+}
+
+function getScaledMacros(r, scale) {
+  const s = scale || 1;
+  return {
+    cal:     Math.round(r.cal     * s),
+    protein: Math.round(r.protein * s),
+    carbs:   Math.round(r.carbs   * s),
+    fat:     Math.round(r.fat     * s),
+  };
+}
+
+function getDayMacros(dayKey) {
+  const plan = getWeekPlan();
+  const slots = plan[dayKey] || [];
+  let cal = 0, protein = 0, carbs = 0, fat = 0;
+  slots.forEach(slot => {
+    if (slot && slot.recipeId) {
+      const r = recipes.find(x => x.id === slot.recipeId);
+      if (r) {
+        const m = getScaledMacros(r, slot.portionScale);
+        cal += m.cal; protein += m.protein; carbs += m.carbs; fat += m.fat;
+      }
+    }
+  });
+  return { cal, protein, carbs, fat };
+}
+
+function renderWeek() {
+  document.getElementById('week-label').textContent = getWeekLabel();
+  const plan = getWeekPlan();
+  const grid = document.getElementById('days-grid');
+
+  grid.innerHTML = DAYS.map((day, idx) => {
+    const key = DAYS_SHORT[idx];
+    const slots = plan[key] || [];
+    const todayFlag = isToday(idx);
+    const trainingFlag = isTrainingDay(key);
+    const macros = getDayMacros(key);
+    const dayTarget = getDayTarget(key);
+    const calPct = Math.min(100, Math.round(macros.cal / dayTarget * 100));
+    const calColor = calPct < 80 ? 'var(--cal-color)' : calPct > 110 ? 'var(--red)' : 'var(--accent2)';
+
+    // Kolory makro względem zakresów
+    function macroColor(val, min, max) {
+      if (val < min) return 'var(--cal-color)';      // żółty — za mało
+      if (val > max) return 'var(--red)';            // czerwony — za dużo
+      return 'var(--accent2)';                       // zielony — OK
+    }
+    const proColor   = macroColor(macros.protein, TOL_PROTEIN_MIN, TOL_PROTEIN_MAX);
+    const carbsColor = macroColor(macros.carbs,   TOL_CARBS_MIN,   TOL_CARBS_MAX);
+    const fatColor   = macroColor(macros.fat,     TOL_FAT_MIN,     TOL_FAT_MAX);
+
+    const slotsHtml = slots.map((slot, si) => {
+      if (!slot || !slot.recipeId) {
+        return `<div class="meal-slot" ondragover="onDragOver(event)" ondrop="onDrop(event,'${key}',${si})" ondragleave="onDragLeave(event)" data-day="${key}" data-slot="${si}">
+          <span class="meal-slot-type">${slot?.type || '—'}</span>
+          <span class="meal-slot-empty">Upuść przepis lub <button class="add-meal-btn" style="display:inline;border:none;padding:0;font-size:0.75rem" onclick="openChooseModal('${key}',${si})">wybierz</button></span>
+          <div class="meal-slot-actions">
+            <button class="slot-btn remove" onclick="removeSlot('${key}',${si})" title="Usuń slot">✕</button>
+          </div>
+        </div>`;
+      }
+      const r = recipes.find(x => x.id === slot.recipeId);
+      if (!r) return '';
+      const sc = slot.portionScale || 1;
+      const m = getScaledMacros(r, sc);
+      const scLabel = sc !== 1 ? `<span style="font-size:0.6rem;background:rgba(200,245,102,0.15);color:var(--accent);padding:1px 6px;border-radius:100px;margin-left:4px">×${sc.toFixed(1)}</span>` : '';
+      const slotTag = slot.type === 'lunch' ? 'lunch' : r.type.replace('ą','a').replace('ś','s');
+      const notesId = `notes-${key}-${si}`;
+      const hasNotes = r.notes && r.notes.trim().length > 0;
+      const scaledNotes = hasNotes ? scaleNotesText(r.notes.trim(), sc) : '';
+      return `<div class="meal-slot has-meal" ondragover="onDragOver(event)" ondrop="onDrop(event,'${key}',${si})" ondragleave="onDragLeave(event)" data-day="${key}" data-slot="${si}">
+        <div class="meal-slot-type">
+          <div class="recipe-tag tag-${slotTag}" style="font-size:0.55rem">${slot.type}</div>
+        </div>
+        <div class="meal-slot-content">
+          <div class="meal-slot-name">${r.name}${scLabel}</div>
+          <div class="meal-slot-macros">
+            <span style="color:var(--cal-color)">${m.cal} kcal</span>
+            <span style="color:var(--protein-color)">B:${m.protein}g</span>
+            <span style="color:var(--carb-color)">W:${m.carbs}g</span>
+            <span style="color:var(--fat-color)">T:${m.fat}g</span>
+          </div>
+          ${hasNotes ? `<button class="meal-notes-toggle" onclick="toggleNotes('${notesId}',this)">▸ Jak przygotować</button>
+          <div class="meal-notes-body" id="${notesId}">${scaledNotes}</div>` : ''}
+        </div>
+        <div class="meal-slot-actions">
+          <button class="slot-btn" onclick="changePortionScale('${key}',${si},-1)" title="Mniej porcji">−</button>
+          <button class="slot-btn" onclick="changePortionScale('${key}',${si},1)" title="Więcej porcji">+</button>
+          <button class="slot-btn" onclick="openChooseModal('${key}',${si})" title="Zmień">⇄</button>
+          <button class="slot-btn remove" onclick="removeMealFromSlot('${key}',${si})" title="Usuń">✕</button>
+        </div>
+      </div>`;
+    }).join('');
+
+    return `<div class="day-card ${todayFlag?'today':''} ${trainingFlag?'training-day':''}" id="day-${key}">
+      <div class="day-header" onclick="toggleDay('${key}')">
+        <div class="day-name-wrap">
+          <span class="day-name">${day}</span>
+          ${todayFlag ? '<span class="today-badge">Dziś</span>' : ''}
+          ${trainingFlag ? '<span style="font-size:0.75rem" title="Dzień treningowy">🏋️</span>' : ''}
+        </div>
+        <div class="day-cal-badge">
+          <span><strong style="color:${calColor}">${macros.cal}</strong> / ${dayTarget} kcal${trainingFlag ? ' <span class="training-bonus">+'+TRAINING_BONUS+'</span>' : ''}</span>
+          <div class="cal-bar-wrap"><div class="cal-bar" style="width:${calPct}%;background:${calColor}"></div></div>
+          <span>B:<strong style="color:${proColor}">${macros.protein}g</strong></span>
+          <span>W:<strong style="color:${carbsColor}">${macros.carbs}g</strong></span>
+          <span>T:<strong style="color:${fatColor}">${macros.fat}g</strong></span>
+          <span class="day-collapse-icon">▾</span>
+        </div>
+      </div>
+      <div class="day-meals" id="meals-${key}">
+        ${slotsHtml}
+        <div class="add-meal-row">
+          <button class="add-meal-btn" onclick="addSlot('${key}','śniadanie')">+ Śniadanie</button>
+          <button class="add-meal-btn" onclick="addSlot('${key}','lunch')">+ Lunch</button>
+          <button class="add-meal-btn" onclick="addSlot('${key}','obiad')">+ Obiad</button>
+          <button class="add-meal-btn" onclick="addSlot('${key}','kolacja')">+ Kolacja</button>
+          <button class="add-meal-btn" onclick="addSlot('${key}','przekąska')">+ Przekąska</button>
+          <button class="training-toggle ${trainingFlag?'active':''}" onclick="event.stopPropagation();toggleTrainingDay('${key}')">
+            <span class="toggle-icon">🏋️</span>
+            ${trainingFlag ? 'Trening ✓' : 'Dzień treningowy'}
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleDay(key) {
+  const card = document.getElementById(`day-${key}`);
+  card.classList.toggle('collapsed');
+}
+
+// ===================== SLOTS =====================
+function addSlot(dayKey, type) {
+  const plan = getWeekPlan();
+  if (!plan[dayKey]) plan[dayKey] = [];
+  plan[dayKey].push({ type, recipeId: null, portionScale: 1 });
+  save(); renderWeek();
+}
+
+function removeSlot(dayKey, slotIdx) {
+  const plan = getWeekPlan();
+  if (plan[dayKey]) plan[dayKey].splice(slotIdx, 1);
+  save(); renderWeek();
+}
+
+function removeMealFromSlot(dayKey, slotIdx) {
+  const plan = getWeekPlan();
+  if (plan[dayKey] && plan[dayKey][slotIdx]) {
+    plan[dayKey][slotIdx].recipeId = null;
+  }
+  save(); renderWeek();
+}
+
+// ===================== DRAG & DROP =====================
+let draggedRecipeId = null;
+function onDragStart(e, id) {
+  draggedRecipeId = id;
+  e.dataTransfer.effectAllowed = 'copy';
+}
+function onDragOver(e) {
+  e.preventDefault();
+  e.currentTarget.classList.add('drop-target');
+}
+function onDragLeave(e) {
+  e.currentTarget.classList.remove('drop-target');
+}
+function onDrop(e, dayKey, slotIdx) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drop-target');
+  if (!draggedRecipeId) return;
+  const plan = getWeekPlan();
+  if (!plan[dayKey]) plan[dayKey] = [];
+  if (plan[dayKey][slotIdx]) {
+    plan[dayKey][slotIdx].recipeId = draggedRecipeId;
+  } else {
+    const r = recipes.find(x => x.id === draggedRecipeId);
+    plan[dayKey][slotIdx] = { type: r?.type || 'obiad', recipeId: draggedRecipeId };
+  }
+  save(); renderWeek();
+  draggedRecipeId = null;
+}
+
+// ===================== PORTION SCALE =====================
+function changePortionScale(dayKey, slotIdx, dir) {
+  const plan = getWeekPlan();
+  const slot = plan[dayKey] && plan[dayKey][slotIdx];
+  if (!slot) return;
+  const step = 0.1;
+  const current = slot.portionScale || 1;
+  const next = Math.round((current + dir * step) * 10) / 10;
+  slot.portionScale = Math.max(0.5, Math.min(3.0, next));
+  save(); renderWeek();
+}
+
+// ===================== GENERATE WEEK =====================
+function pickFrom(pool, used) {
+  let available = pool.filter(r => !used.includes(r.id));
+  if (available.length === 0) { used.length = 0; available = pool; }
+  if (available.length === 0) return null;
+  const pick = available[Math.floor(Math.random() * available.length)];
+  used.push(pick.id);
+  return pick;
+}
+
+function generateWeek() {
+  const plan = getWeekPlan();
+
+  // Pule przepisów — ściśle według typu
+  const breakfasts = recipes.filter(r => r.type === 'śniadanie');
+  const dinners    = recipes.filter(r => r.type === 'obiad');    // TYLKO obiady
+  const suppers    = recipes.filter(r => r.type === 'kolacja');  // launche/kolacje
+  const snacks     = recipes.filter(r => r.type === 'przekąska');
+
+  // ── 1. Resetuj wszystkie dni do 4 slotów ──
+  // Struktura: śniadanie, lunch, obiad, kolacja
+  DAYS_SHORT.forEach(key => {
+    plan[key] = [
+      { type: 'śniadanie', recipeId: null, portionScale: 1 },
+      { type: 'lunch',     recipeId: null, portionScale: 1 },
+      { type: 'obiad',     recipeId: null, portionScale: 1 },
+      { type: 'kolacja',   recipeId: null, portionScale: 1 },
+    ];
+  });
+
+  // ── 2. Obiady — pary dni (gotujesz raz na 2 dni) ──
+  // pon=wt, śr=czw, pt=sob, ndz osobno
+  const dinnerPairs = [['pon','wt'], ['sr','czw'], ['pt','sob'], ['ndz']];
+  const usedDinners = [];
+  dinnerPairs.forEach(pair => {
+    const firstSlot = plan[pair[0]] && plan[pair[0]].find(s => s.type === 'obiad');
+    if (firstSlot && firstSlot.recipeId) return; // para już wypełniona
+    const pick = pickFrom(dinners, usedDinners);
+    if (!pick) return;
+    pair.forEach(dayKey => {
+      const slot = plan[dayKey] && plan[dayKey].find(s => s.type === 'obiad');
+      if (slot && !slot.recipeId) slot.recipeId = pick.id;
+    });
+  });
+
+  // ── 3. Śniadania — każdy dzień inne ──
+  const usedBreakfasts = [];
+  DAYS_SHORT.forEach(key => {
+    const slot = plan[key].find(s => s.type === 'śniadanie');
+    if (!slot || slot.recipeId) return;
+    const pick = pickFrom(breakfasts, usedBreakfasts);
+    if (pick) slot.recipeId = pick.id;
+  });
+
+  // ── 4. Lunche — każdy dzień inne (z puli kolacja) ──
+  const usedLunches = [];
+  DAYS_SHORT.forEach(key => {
+    const slot = plan[key].find(s => s.type === 'lunch');
+    if (!slot || slot.recipeId) return;
+    const pick = pickFrom(suppers.length ? suppers : snacks, usedLunches);
+    if (pick) slot.recipeId = pick.id;
+  });
+
+  // ── 5a. Kolacje — unikaj powtórzeń ──
+  const usedSuppers = [];
+  DAYS_SHORT.forEach(key => {
+    const slot = plan[key].find(s => s.type === 'kolacja');
+    if (!slot || slot.recipeId) return;
+    const pick = pickFrom(suppers.length ? suppers : snacks, usedSuppers);
+    if (pick) slot.recipeId = pick.id;
+  });
+
+  // ── 6. Inteligentne skalowanie obiadu ──
+  // Cel: trafić w TARGET_CAL, TARGET_PROTEIN, TARGET_CARBS, TARGET_FAT
+  // Strategia: obiad jako "regulowany" posiłek, śniadanie/lunch/kolacja fixed
+  DAYS_SHORT.forEach(key => {
+    const targetCal = getDayTarget(key);
+    const slots     = plan[key] || [];
+
+    // Suma makro ze śniadania, lunchu i kolacji (fixed, scale=1)
+    let fixedCal = 0, fixedPro = 0, fixedCarbs = 0, fixedFat = 0;
+    slots.forEach(slot => {
+      if (!slot.recipeId || slot.type === 'obiad') return;
+      const r = recipes.find(x => x.id === slot.recipeId);
+      if (r) {
+        const sc = slot.portionScale || 1;
+        fixedCal   += Math.round(r.cal     * sc);
+        fixedPro   += Math.round(r.protein * sc);
+        fixedCarbs += Math.round(r.carbs   * sc);
+        fixedFat   += Math.round(r.fat     * sc);
+      }
+    });
+
+    const dinnerSlot = slots.find(s => s.type === 'obiad');
+    if (!dinnerSlot || !dinnerSlot.recipeId) return;
+    const dr = recipes.find(x => x.id === dinnerSlot.recipeId);
+    if (!dr) return;
+
+    // Oblicz optymalny scale na podstawie kalorycznego zapotrzebowania
+    const remainingCal = targetCal - fixedCal;
+    let scaleCal = remainingCal / dr.cal;
+
+    // Oblicz scale z perspektywy białka
+    const remainingPro = TARGET_PROTEIN - fixedPro;
+    let scalePro = dr.protein > 0 ? remainingPro / dr.protein : scaleCal;
+
+    // Weź średnią ważoną (kalorie 60%, białko 40%)
+    let scale = scaleCal * 0.6 + scalePro * 0.4;
+    scale = Math.round(scale * 10) / 10;
+    scale = Math.max(1.0, Math.min(2.0, scale));
+    dinnerSlot.portionScale = scale;
+
+    // Sprawdź makro po skalowaniu
+    const totalPro   = fixedPro   + Math.round(dr.protein * scale);
+    const totalCarbs = fixedCarbs + Math.round(dr.carbs   * scale);
+    const totalFat   = fixedFat   + Math.round(dr.fat     * scale);
+    const totalCal   = fixedCal   + Math.round(dr.cal     * scale);
+
+    // Jeśli nadal brakuje białka (>25g poniżej minimum) — dodaj przekąskę białkową
+    const missingPro = TOL_PROTEIN_MIN - totalPro;
+    if (missingPro > 25 && snacks.length > 0) {
+      const snackSlots = slots.filter(s => s.type === 'przekąska');
+      if (snackSlots.length === 0) {
+        // Wybierz przekąskę z najlepszym stosunkiem białko/kaloria
+        const bestSnack = snacks.reduce((best, r) =>
+          (r.protein / r.cal) > (best.protein / best.cal) ? r : best, snacks[0]);
+        slots.push({ type: 'przekąska', recipeId: bestSnack.id, portionScale: 1 });
+      }
+    }
+  });
+
+  weekPlans[currentWeek] = plan;
+  save(); renderWeek();
+  showToast('✦ Plan tygodnia wygenerowany!', 'success');
+}
+
+// ===================== SAVED PLANS =====================
+function saveCurrentPlan() {
+  const name = document.getElementById('save-plan-name').value.trim();
+  if (!name) { showToast('Podaj nazwę planu!', 'error'); return; }
+  // Deep copy obecnego tygodnia
+  savedPlans[name] = JSON.parse(JSON.stringify(getWeekPlan()));
+  save();
+  closeSavePlanModal();
+  renderSavedPlans();
+  showToast(`Plan "${name}" zapisany!`, 'success');
+}
+
+function loadSavedPlan(name) {
+  if (!savedPlans[name]) return;
+  if (!confirm(`Wczytać plan "${name}"? Zastąpi bieżący tydzień.`)) return;
+  weekPlans[currentWeek] = JSON.parse(JSON.stringify(savedPlans[name]));
+  save(); renderWeek();
+  showToast(`Plan "${name}" wczytany!`, 'success');
+}
+
+function deleteSavedPlan(name) {
+  if (!confirm(`Usunąć plan "${name}"?`)) return;
+  delete savedPlans[name];
+  save(); renderSavedPlans();
+  showToast('Plan usunięty', 'success');
+}
+
+function openSavePlanModal() {
+  document.getElementById('save-plan-name').value = '';
+  document.getElementById('save-plan-modal').classList.add('open');
+}
+
+function closeSavePlanModal() {
+  document.getElementById('save-plan-modal').classList.remove('open');
+}
+
+function renderSavedPlans() {
+  const list = document.getElementById('saved-plans-list');
+  const names = Object.keys(savedPlans);
+  if (names.length === 0) {
+    list.innerHTML = '<div style="color:var(--text-muted);font-size:0.78rem;padding:8px 0">Brak zapisanych planów</div>';
+    return;
+  }
+  list.innerHTML = names.map(name => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:6px">
+      <span style="font-size:0.82rem;font-weight:500">${name}</span>
+      <div style="display:flex;gap:6px">
+        <button class="btn-xs" style="background:rgba(200,245,102,0.12);color:var(--accent);border:1px solid rgba(200,245,102,0.3);border-radius:100px;padding:2px 10px;cursor:pointer;font-size:0.68rem" onclick="loadSavedPlan('${name}')">Wczytaj</button>
+        <button class="btn-xs" style="background:#3a1a1a;color:var(--red);border:1px solid #5a2a2a;border-radius:100px;padding:2px 10px;cursor:pointer;font-size:0.68rem" onclick="deleteSavedPlan('${name}')">Usuń</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function clearWeek() {
+  weekPlans[currentWeek] = {};
+  save(); renderWeek();
+  showToast('Plan wyczyszczony', 'success');
+}
+
+function changeWeek(dir) {
+  currentWeek += dir;
+  renderSidebar();
+  renderWeek();
+}
+
+// ===================== CHOOSE MODAL =====================
+function openChooseModal(dayKey, slotIdx) {
+  choosingSlot = { dayKey, slotIdx };
+  document.getElementById('choose-search').value = '';
+  document.getElementById('choose-modal').classList.add('open');
+  renderChooseList();
+}
+function closeChooseModal() {
+  document.getElementById('choose-modal').classList.remove('open');
+  choosingSlot = null;
+}
+function renderChooseList() {
+  const s = document.getElementById('choose-search').value.toLowerCase();
+  const list = document.getElementById('choose-list');
+  const filtered = recipes.filter(r => r.name.toLowerCase().includes(s) || r.type.includes(s));
+  list.innerHTML = filtered.map(r => `
+    <div class="recipe-choose-item" onclick="selectMeal('${r.id}')">
+      <div>
+        <div class="recipe-tag tag-${r.type.replace('ą','a').replace('ś','s')}" style="margin-bottom:4px">${r.type}</div>
+        <div style="font-weight:600;font-size:0.85rem">${r.name}</div>
+        <div style="font-size:0.7rem;color:var(--text-muted);margin-top:3px">${r.cal} kcal · B:${r.protein}g · W:${r.carbs}g · T:${r.fat}g</div>
+      </div>
+      <span style="color:var(--accent);font-size:1.2rem">+</span>
+    </div>
+  `).join('') || '<div style="color:var(--text-muted);font-size:0.8rem;padding:12px">Brak przepisów</div>';
+}
+function selectMeal(recipeId) {
+  if (!choosingSlot) return;
+  const { dayKey, slotIdx } = choosingSlot;
+  const plan = getWeekPlan();
+  if (!plan[dayKey]) plan[dayKey] = [];
+  if (plan[dayKey][slotIdx]) {
+    plan[dayKey][slotIdx].recipeId = recipeId;
+    if (!plan[dayKey][slotIdx].portionScale) plan[dayKey][slotIdx].portionScale = 1;
+  } else {
+    const r = recipes.find(x => x.id === recipeId);
+    plan[dayKey][slotIdx] = { type: r?.type || 'obiad', recipeId, portionScale: 1 };
+  }
+  save(); renderWeek();
+  closeChooseModal();
+  showToast('Posiłek dodany!', 'success');
+}
+
+// ===================== RECIPE MODAL =====================
+function openRecipeModal() {
+  editingRecipeId = null;
+  document.getElementById('recipe-modal-title').textContent = 'Dodaj przepis';
+  ['r-name','r-cal','r-protein','r-carbs','r-fat','r-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('r-type').value = 'obiad';
+  document.getElementById('r-portions').value = '1';
+  document.getElementById('recipe-modal').classList.add('open');
+}
+function editRecipe(id) {
+  const r = recipes.find(x => x.id === id);
+  if (!r) return;
+  editingRecipeId = id;
+  document.getElementById('recipe-modal-title').textContent = 'Edytuj przepis';
+  document.getElementById('r-name').value = r.name;
+  document.getElementById('r-type').value = r.type;
+  document.getElementById('r-cal').value = r.cal;
+  document.getElementById('r-protein').value = r.protein;
+  document.getElementById('r-carbs').value = r.carbs;
+  document.getElementById('r-fat').value = r.fat;
+  document.getElementById('r-portions').value = r.portions || 1;
+  document.getElementById('r-notes').value = r.notes || '';
+  document.getElementById('recipe-modal').classList.add('open');
+}
+function closeRecipeModal() {
+  document.getElementById('recipe-modal').classList.remove('open');
+}
+function saveRecipe() {
+  const name = document.getElementById('r-name').value.trim();
+  if (!name) { showToast('Podaj nazwę przepisu!', 'error'); return; }
+  const data = {
+    name,
+    type: document.getElementById('r-type').value,
+    cal: parseInt(document.getElementById('r-cal').value) || 0,
+    protein: parseInt(document.getElementById('r-protein').value) || 0,
+    carbs: parseInt(document.getElementById('r-carbs').value) || 0,
+    fat: parseInt(document.getElementById('r-fat').value) || 0,
+    portions: parseInt(document.getElementById('r-portions').value) || 1,
+    notes: document.getElementById('r-notes').value.trim(),
+  };
+  if (editingRecipeId) {
+    const idx = recipes.findIndex(x => x.id === editingRecipeId);
+    if (idx >= 0) recipes[idx] = { ...recipes[idx], ...data };
+    showToast('Przepis zaktualizowany!', 'success');
+  } else {
+    recipes.push({ id: crypto.randomUUID(), ...data });
+    showToast('Przepis dodany!', 'success');
+  }
+  save(); closeRecipeModal(); renderSidebar(); renderWeek();
+}
+function deleteRecipe(id) {
+  if (!confirm('Usunąć ten przepis?')) return;
+  recipes = recipes.filter(x => x.id !== id);
+  // Remove from plans
+  Object.values(weekPlans).forEach(plan => {
+    Object.values(plan).forEach(slots => {
+      if (Array.isArray(slots)) slots.forEach(s => { if (s && s.recipeId === id) s.recipeId = null; });
+    });
+  });
+  save(); renderSidebar(); renderWeek();
+  showToast('Przepis usunięty', 'success');
+}
+
+// ===================== SCALE NOTES =====================
+// Mnoży wszystkie liczby z jednostkami (g, ml, szt., kcal) przez podany scale
+// Działa tylko na sekcji Składniki — Przygotowanie pozostaje bez zmian
+function scaleNotesText(notes, scale) {
+  if (!notes || scale === 1) return notes;
+
+  const lines = notes.split('\n');
+  let inIngredients = true; // zakładamy że Składniki są na początku
+
+  return lines.map(line => {
+    // Linia "Przygotowanie:" — od tej chwili nie skaluj
+    if (/^Przygotowanie\s*:/i.test(line.trim())) {
+      inIngredients = false;
+    }
+    if (!inIngredients) return line;
+
+    // Zamień liczby przed jednostkami: 150g → 225g, 2 szt. → 3 szt., 100ml → 150ml
+    // Wzorzec: liczba (int lub float) + opcjonalna spacja + jednostka
+    return line.replace(/(\d+(?:[.,]\d+)?)\s*(g|ml|szt\.|szt|kcal|dag|kg|l|łyżka|łyżeczka|łyżki|łyżeczki|cm|szklan[akie]+)\b/gi,
+      (match, num, unit) => {
+        const original = parseFloat(num.replace(',', '.'));
+        const scaled = Math.round(original * scale); // zaokrąglij do pełnych gramów
+        return `${scaled}${unit}`;
+      }
+    );
+  }).join('\n');
+}
+
+// ===================== NOTES TOGGLE =====================
+function toggleNotes(id, btn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle('open');
+  btn.textContent = el.classList.contains('open') ? '▾ Ukryj instrukcję' : '▸ Jak przygotować';
+}
+
+// ===================== TOAST =====================
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.className = `toast show ${type}`;
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ===================== CLOSE MODALS ON OUTSIDE CLICK =====================
+document.querySelectorAll('.modal-overlay').forEach(o => {
+  o.addEventListener('click', e => { if (e.target === o) { o.classList.remove('open'); } });
+});
+
+// ===================== INIT =====================
+async function init() {
+  await load();
+  seedRecipes();
+  renderSidebar();
+  renderWeek();
+  renderSavedPlans();
+}
+init();
+</script>
+</body>
+</html>
