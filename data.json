@@ -307,6 +307,39 @@
       "portions": 1,
       "protein": 48,
       "type": "obiad"
+    },
+    {
+      "cal": 404,
+      "carbs": 32,
+      "fat": 30,
+      "id": "r-029",
+      "name": "Sałatka z komosą ryżową i łososiem",
+      "notes": "Składniki: Komosa ryżowa (quinoa) sucha 50g, Łosoś wędzony na zimno 100g, Awokado 70g, Ogórek zielony 80g, Pomidorki koktajlowe 80g, Szpinak świeży 30g, Oliwa z oliwek 10g, Sok z cytryny 10ml, Sól, pieprz, koper świeży do smaku\n\nPrzygotowanie:\n1. Komosę ryżową przepłucz pod zimną wodą, gotuj 15 min w lekko osolonej wodzie (2:1 woda/kasza), ostudź.\n2. Ogórka i pomidorki pokrój w kostkę, awokado w plastry.\n3. W dużej misce wymieszaj komosę, szpinak, ogórka, pomidorki i awokado.\n4. Na wierzchu ułóż plastry łososia wędzonego.\n5. Skrop oliwą i sokiem z cytryny, dopraw solą, pieprzem i świeżym koprem.",
+      "portions": 1,
+      "protein": 39,
+      "type": "kolacja"
+    },
+    {
+      "cal": 388,
+      "carbs": 34,
+      "fat": 17,
+      "id": "r-030",
+      "name": "Wrap z pastą twarogową, łososiem i awokado",
+      "notes": "Składniki: Tortilla pszenna duża 70g, Twaróg chudy 100g, Łosoś wędzony na zimno 80g, Awokado 60g, Ogórek zielony 60g, Sałata lodowa 30g, Sok z cytryny 5ml, Koper świeży, sól, pieprz do smaku\n\nPrzygotowanie:\n1. Twaróg rozgnieć widelcem, dopraw sokiem z cytryny, solą, pieprzem i koprem — uzyskasz gładką pastę.\n2. Awokado rozgnieć lub pokrój w plastry, ogórka pokrój w paski.\n3. Na tortillę nałóż równomiernie pastę twarogową.\n4. Ułóż sałatę, plastry łososia, awokado i ogórka.\n5. Zwiń ciasno w rulon, przekrój na pół i podawaj.",
+      "portions": 1,
+      "protein": 25,
+      "type": "lunch"
+    },
+    {
+      "cal": 390,
+      "carbs": 43,
+      "fat": 15,
+      "id": "r-031",
+      "name": "Zapiekany omlet jaglany marchewkowo-jabłkowy",
+      "notes": "Składniki: Kasza jaglana sucha 40g, Jajka 3 szt. (165g), Marchew 80g, Jabłko 80g, Twaróg chudy 60g, Mleko 1,5% 50ml, Olej kokosowy 5g, Cynamon 1g, Erytrytol 10g, Szczypta soli\n\nPrzygotowanie:\n1. Kaszę jaglaną ugotuj (proporcja 1:2,5 wody), ostudź.\n2. Marchew zetrzyj na tarce, jabłko obierz i zetrzyj na tarce.\n3. W misce wymieszaj ugotowaną kaszę, twaróg, mleko, jajka, erytrytol, cynamon i sól.\n4. Dodaj startą marchewkę i jabłko, dokładnie wymieszaj.\n5. Formę do zapiekania wysmaruj olejem kokosowym, wylej masę.\n6. Piecz w 180°C przez 30–35 minut do złotego koloru. Podawaj ciepły lub zimny.",
+      "portions": 1,
+      "protein": 39,
+      "type": "śniadanie"
     }
   ],
   "weekPlans": {
@@ -465,15 +498,16 @@
           "portionScale": 1
         }
       ]
-    }
+    },
+    "-1": {}
   },
   "trainingDays": {
     "0": [
       "pon",
-      "sr",
-      "pt"
+      "sr"
     ],
-    "1": []
+    "1": [],
+    "-1": []
   },
   "savedPlans": {}
 }

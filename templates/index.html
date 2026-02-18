@@ -688,6 +688,7 @@
 
   /* RESPONSIVE */
   @media (max-width: 768px) {
+    #mobile-training-panel { display: block !important; }
     main { grid-template-columns: 1fr; }
     aside { display: none; }
     header { padding: 12px 14px; gap: 8px; flex-wrap: wrap; }
@@ -783,6 +784,16 @@
       <button class="nav-btn" onclick="changeWeek(-1)">‹</button>
       <h2 id="week-label">Tydzień 1</h2>
       <button class="nav-btn" onclick="changeWeek(1)">›</button>
+    </div>
+
+    <!-- Panel treningowy na mobile (sidebar ukryty) -->
+    <div id="mobile-training-panel" style="display:none;margin-bottom:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px">
+      <div style="font-size:0.68rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px">🏋️ Dni treningowe</div>
+      <div id="mobile-training-dots" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+      <div style="margin-top:8px;font-size:0.7rem;color:var(--text-muted)">
+        Dni treningowe: <strong style="color:var(--accent3)" id="mobile-training-cal">—</strong> kcal
+        <span style="color:var(--text-muted)">(+<span id="mobile-training-bonus">—</span>)</span>
+      </div>
     </div>
 
     <div class="generate-row">
@@ -1046,19 +1057,31 @@ function getDayTarget(dayKey) {
 
 function renderTrainingDots() {
   const dots = document.getElementById('training-dots');
-  if (!dots) return;
   const set = getTrainingSet();
   const DAY_LABELS = ['Pn','Wt','Śr','Cz','Pt','Sb','Nd'];
-  dots.innerHTML = DAYS_SHORT.map((key, i) => `
+  const dotHtml = DAYS_SHORT.map((key, i) => `
     <div class="training-dot ${set.has(key) ? 'active' : ''}"
       onclick="toggleTrainingDay('${key}')" title="${DAYS[i]}">
       ${DAY_LABELS[i]}
     </div>
   `).join('');
 
+  if (dots) dots.innerHTML = dotHtml;
+
+  // Mobile training panel
+  const mobileDots = document.getElementById('mobile-training-dots');
+  if (mobileDots) mobileDots.innerHTML = dotHtml;
+
   const trainingCal = TARGET_CAL + TRAINING_BONUS;
-  document.getElementById('sidebar-training-cal').textContent = trainingCal;
-  document.getElementById('sidebar-training-bonus').textContent = '+' + TRAINING_BONUS;
+  const sidebarCal = document.getElementById('sidebar-training-cal');
+  const sidebarBonus = document.getElementById('sidebar-training-bonus');
+  if (sidebarCal) sidebarCal.textContent = trainingCal;
+  if (sidebarBonus) sidebarBonus.textContent = '+' + TRAINING_BONUS;
+
+  const mobileCal = document.getElementById('mobile-training-cal');
+  const mobileBonus = document.getElementById('mobile-training-bonus');
+  if (mobileCal) mobileCal.textContent = trainingCal;
+  if (mobileBonus) mobileBonus.textContent = TRAINING_BONUS;
 }
 
 // ===================== WEEK RENDERING =====================
