@@ -1134,6 +1134,30 @@ function getDayMacros(dayKey) {
   return { cal, protein, carbs, fat };
 }
 
+function autoBalanceDay(dayKey) {
+  const plan = getWeekPlan();
+  const slots = plan[dayKey];
+  if (!slots || slots.length === 0) return;
+
+  let currentCal = 0;
+  slots.forEach(slot => {
+    if (!slot || !slot.recipeId) return;
+    const r = recipes.find(x => x.id === slot.recipeId);
+    if (r) currentCal += Math.round(r.cal * (slot.portionScale || 1));
+  });
+  if (currentCal === 0) return;
+
+  const target = getDayTarget(dayKey);
+  const factor = target / currentCal;
+
+  slots.forEach(slot => {
+    if (!slot || !slot.recipeId) return;
+    const current = slot.portionScale || 1;
+    const newScale = Math.round(current * factor * 10) / 10;
+    slot.portionScale = Math.max(0.5, Math.min(3.0, newScale));
+  });
+}
+
 function renderWeek() {
   document.getElementById('week-label').textContent = getWeekLabel();
   const plan = getWeekPlan();
@@ -1147,7 +1171,8 @@ function renderWeek() {
     const macros = getDayMacros(key);
     const dayTarget = getDayTarget(key);
     const calPct = Math.min(100, Math.round(macros.cal / dayTarget * 100));
-    const calColor = calPct < 80 ? 'var(--cal-color)' : calPct > 110 ? 'var(--red)' : 'var(--accent2)';
+    const calDiff = Math.abs(macros.cal - dayTarget);
+    const calColor = calDiff <= 50 ? 'var(--accent2)' : calDiff <= 150 ? 'var(--cal-color)' : 'var(--red)';
 
     // Kolory makro względem zakresów
     function macroColor(val, min, max) {
@@ -1213,6 +1238,10 @@ function renderWeek() {
             style="padding:2px 8px;font-size:0.65rem">
             🏋️${trainingFlag ? ' ✓' : ''}
           </button>
+          <button class="training-toggle"
+            onclick="event.stopPropagation();autoBalanceDay('${key}');save();renderWeek();"
+            title="Balansuj dzień proporcjonalnie do celu kalorycznego"
+            style="padding:2px 8px;font-size:0.65rem">⚖️</button>
         </div>
         <div class="day-cal-badge">
           <span><strong style="color:${calColor}">${macros.cal}</strong> / ${dayTarget} kcal${trainingFlag ? ' <span class="training-bonus">+'+TRAINING_BONUS+'</span>' : ''}</span>
